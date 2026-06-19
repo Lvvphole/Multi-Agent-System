@@ -1,0 +1,14 @@
+check_id,contract_field,evidence_artifact,result,note
+C0.1,all sections,contract_requirements_checklist.md,PASS,all present
+C0.2,SUCCESS_CRITERIA/EVIDENCE_REQUIRED,contract_requirements_checklist.md,PASS,SC blocks reference Evidence and EVIDENCE_REQUIRED present
+C0.3,CONSTRAINTS.13,contract_requirements_checklist.md,PASS,forbidden-terms only quoted
+C0.4,ARTIFACT_COMPRESSION_GUARDRAIL,contract_requirements_checklist.md,PASS,guardrail section present
+C0.5,ROLES.EXECUTOR/COMPLETION_AUTHORITY,contract_requirements_checklist.md,PASS,self-certification blocked in CONSTRAINTS/ROLES
+C0.6,STOP_CONDITIONS,contract_requirements_checklist.md,PASS,mechanical stop conditions defined
+C0.7,HARNESS_DETERMINISM_LAYER/DETERMINISM_LOCUS,contract_requirements_checklist.md,PASS,harness layer + determinism-locus principle present
+C0.8,STATE STORE/STAGE_GATES,contract_requirements_checklist.md,PASS,stages 0-13 declared
+C0.9,GENERATION_LOCK,contract_requirements_checklist.md,PASS,generation lock present
+C0.10,Release Gate,contract_requirements_checklist.md,PASS,release lock/gate present
+C0.11,VERIFIER/EVALUATOR (A3),contract_requirements_checklist.md,PASS,alternate-model judge mandated
+C0.12,HUMAN_IN_THE_LOOP (A3),contract_requirements_checklist.md,PASS,human gate + deletion protocol present
+C0.13,SELF_LEARNING_VALIDATION (A4),contract_requirements_checklist.md,PASS,"held-out gate, rising bar, and decay check mandated"

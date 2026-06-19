@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "run_history_schema",
+  "title": "Run History Step Record",
+  "description": "One record per executed step. Records every step, input, output, retry, failure, and decision (Stage 4 verifier checks 18-23).",
+  "type": "object",
+  "required": ["run_id", "step_id", "stage", "role", "action", "input_ref",
+               "output_ref", "status", "retry_count", "timestamp", "idempotency_key"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": {"type": "string"},
+    "step_id": {"type": "string"},
+    "stage": {"type": "string"},
+    "role": {"type": "string"},
+    "action": {"type": "string"},
+    "input_ref": {"type": ["string", "null"], "description": "ref/checksum of step input"},
+    "output_ref": {"type": ["string", "null"], "description": "ref/checksum of step output"},
+    "status": {"enum": ["started", "succeeded", "failed", "retried", "escalated", "skipped_idempotent"]},
+    "retry_count": {"type": "integer", "minimum": 0},
+    "error": {"type": ["string", "null"], "description": "failure detail when status=failed"},
+    "decision": {"type": ["string", "null"], "description": "gate/agent decision recorded at this step"},
+    "checkpoint_id": {"type": ["string", "null"]},
+    "idempotency_key": {"type": "string"},
+    "timestamp": {"type": ["string", "number"]}
+  }
+}

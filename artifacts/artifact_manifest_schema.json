@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "artifact_manifest_schema",
+  "title": "Artifact Manifest Entry",
+  "type": "object",
+  "required": ["filename", "owner", "stage", "version", "checksum",
+               "created_at", "verification_status", "evaluator_status"],
+  "additionalProperties": false,
+  "properties": {
+    "filename": {"type": "string"},
+    "owner": {"type": "string"},
+    "stage": {"type": "string"},
+    "version": {"type": "string"},
+    "checksum": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "created_at": {"type": ["string", "number"], "description": "created timestamp"},
+    "verification_status": {"enum": ["PENDING", "PASS_STRUCT", "PASS", "FAIL"]},
+    "evaluator_status": {"enum": ["PENDING", "PASS", "FAIL"]},
+    "lineage": {"type": "array", "items": {"type": "string"}, "description": "prior versions/derivation"}
+  }
+}
