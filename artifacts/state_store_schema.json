@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "state_store_schema",
+  "title": "Stage State Record",
+  "type": "object",
+  "required": ["stage_id", "stage_name", "state", "prior_required", "owner_role",
+               "required_artifacts", "artifact_refs", "verifier_result",
+               "evaluator_result", "gate_decision", "run_id", "contract_version"],
+  "additionalProperties": false,
+  "properties": {
+    "stage_id": {"type": "string"},
+    "stage_name": {"type": "string"},
+    "state": {"enum": ["LOCKED", "RUNNING", "PASSED", "FAILED", "ESCALATED"]},
+    "prior_required": {"type": ["string", "null"], "description": "dependency: prior stage that must be PASSED"},
+    "owner_role": {"type": "string"},
+    "required_artifacts": {"type": "array", "items": {"type": "string"}},
+    "artifact_refs": {"type": "array", "items": {"type": "string"}, "description": "links to artifacts"},
+    "verifier_result": {"type": ["string", "null"], "enum": ["PASS", "FAIL", null]},
+    "evaluator_result": {"type": ["string", "null"], "enum": ["PASS", "FAIL", null]},
+    "gate_decision": {"type": ["string", "null"]},
+    "human_approval": {"type": ["string", "null"]},
+    "timestamp": {"type": ["string", "number", "null"]},
+    "run_id": {"type": ["string", "null"]},
+    "contract_version": {"type": ["string", "null"]},
+    "output_checksum": {"type": ["string", "null"]},
+    "escalation_status": {"type": ["string", "null"]}
+  }
+}

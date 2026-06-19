@@ -1,0 +1,124 @@
+test_a4_skill_activation_gate_enforced (__main__.GuardrailTests.test_a4_skill_activation_gate_enforced) ... Exception ignored in: <_io.FileIO name='/home/claude/mas/artifacts/skill_registry_schema.json' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/tests/test_harness.py", line 231, in test_a4_skill_activation_gate_enforced
+    schema = json.load(open(os.path.join(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/claude/mas/artifacts/skill_registry_schema.json' mode='r' encoding='utf-8'>
+ok
+test_gate_order_no_skip (__main__.GuardrailTests.test_gate_order_no_skip) ... ok
+test_human_gate_blocks_destructive (__main__.GuardrailTests.test_human_gate_blocks_destructive) ... ok
+test_idempotency_no_duplicate_write (__main__.GuardrailTests.test_idempotency_no_duplicate_write) ... ok
+test_illegal_transition_rejected (__main__.GuardrailTests.test_illegal_transition_rejected) ... ok
+test_llm_judge_honors_alternate_judge_rule (__main__.GuardrailTests.test_llm_judge_honors_alternate_judge_rule) ... ok
+test_llm_judge_parses_and_fails_closed (__main__.GuardrailTests.test_llm_judge_parses_and_fails_closed) ... ok
+test_placeholder_artifact_fails (__main__.GuardrailTests.test_placeholder_artifact_fails) ... ok
+test_restart_recovery (__main__.GuardrailTests.test_restart_recovery) ... ok
+test_schema_validation_rejects_bad_output (__main__.GuardrailTests.test_schema_validation_rejects_bad_output) ... ok
+test_self_judging_blocked (__main__.GuardrailTests.test_self_judging_blocked) ... ok
+test_stage1_content_checks_fail_closed (__main__.GuardrailTests.test_stage1_content_checks_fail_closed) ... Exception ignored in: <_io.FileIO name='/tmp/tmpe14mxtg3/artifacts/system_boundary_map.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage1.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpe14mxtg3/artifacts/system_boundary_map.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpe14mxtg3/artifacts/multi_agent_requirements.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage1.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpe14mxtg3/artifacts/multi_agent_requirements.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpe14mxtg3/artifacts/input_output_contract.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage1.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpe14mxtg3/artifacts/input_output_contract.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpe14mxtg3/artifacts/constraint_register.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage1.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpe14mxtg3/artifacts/constraint_register.md' mode='r' encoding='utf-8'>
+ok
+test_stage2_executor_cannot_self_certify (__main__.GuardrailTests.test_stage2_executor_cannot_self_certify) ... Exception ignored in: <_io.FileIO name='/tmp/tmpt23d4ff9/artifacts/agent_role_registry.json' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage2.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpt23d4ff9/artifacts/agent_role_registry.json' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpt23d4ff9/artifacts/role_permission_matrix.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage2.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpt23d4ff9/artifacts/role_permission_matrix.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpt23d4ff9/artifacts/forbidden_actions_register.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage2.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpt23d4ff9/artifacts/forbidden_actions_register.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpt23d4ff9/artifacts/agent_handoff_protocol.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage2.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpt23d4ff9/artifacts/agent_handoff_protocol.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpt23d4ff9/artifacts/agent_handoff_protocol.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage2.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpt23d4ff9/artifacts/agent_handoff_protocol.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmpt23d4ff9/artifacts/forbidden_actions_register.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage2.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpt23d4ff9/artifacts/forbidden_actions_register.md' mode='r' encoding='utf-8'>
+ok
+test_stage3_checks_fail_closed (__main__.GuardrailTests.test_stage3_checks_fail_closed) ... Exception ignored in: <_io.FileIO name='/tmp/tmp4kjvlm_4/artifacts/loop_skill_orchestrator_model.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage3.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp4kjvlm_4/artifacts/loop_skill_orchestrator_model.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmp4kjvlm_4/artifacts/orchestrator_responsibility_matrix.md' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage3.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp4kjvlm_4/artifacts/orchestrator_responsibility_matrix.md' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmp4kjvlm_4/artifacts/loop_registry_schema.json' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage3.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp4kjvlm_4/artifacts/loop_registry_schema.json' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/tmp/tmp4kjvlm_4/artifacts/skill_registry_schema.json' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/harness/stage3.py", line 13, in read
+    return open(p).read() if os.path.exists(p) else ""
+           ^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp4kjvlm_4/artifacts/skill_registry_schema.json' mode='r' encoding='utf-8'>
+ok
+test_stage4_schemas_match_harness_shapes (__main__.GuardrailTests.test_stage4_schemas_match_harness_shapes) ... Exception ignored in: <_io.FileIO name='/home/claude/mas/artifacts/state_store_schema.json' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/tests/test_harness.py", line 257, in test_stage4_schemas_match_harness_shapes
+    sschema = json.load(open(os.path.join(base, "artifacts", "state_store_schema.json")))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/claude/mas/artifacts/state_store_schema.json' mode='r' encoding='utf-8'>
+Exception ignored in: <_io.FileIO name='/home/claude/mas/artifacts/artifact_manifest_schema.json' mode='rb' closefd=True>
+Traceback (most recent call last):
+  File "/home/claude/mas/tests/test_harness.py", line 264, in test_stage4_schemas_match_harness_shapes
+    aschema = json.load(open(os.path.join(base, "artifacts", "artifact_manifest_schema.json")))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/claude/mas/artifacts/artifact_manifest_schema.json' mode='r' encoding='utf-8'>
+ok
+test_verify_judge_red_fails_closed (__main__.GuardrailTests.test_verify_judge_red_fails_closed) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.052s
+
+OK
+exit=0

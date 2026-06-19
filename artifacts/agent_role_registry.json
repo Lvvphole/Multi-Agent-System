@@ -1,0 +1,188 @@
+{
+  "registry_id": "stage2.agent_role_registry",
+  "stage": "stage_2",
+  "owner": "Executor",
+  "version": "2.0.0",
+  "architecture_decisions": "deferred_to_stage_3",
+  "agents": {
+    "human_owner": {
+      "inputs": ["escalations", "approval requests", "MAJOR/DESTRUCTIVE change summaries with checksums"],
+      "outputs": ["APPROVE/REJECT/DEFER records bound to checksums", "autonomy/budget decisions"],
+      "permissions": ["approve irreversible/external/MAJOR/DESTRUCTIVE actions", "set autonomy", "set budget"],
+      "forbidden_actions": ["none (final authority); but cannot fabricate artifact evidence"],
+      "memory_permissions": "read all; write approval log only",
+      "tool_permissions": ["human_approval_recorder"],
+      "handoff_to": ["escalation_manager", "release_gate"],
+      "requires_human_approval_for": []
+    },
+    "contract_controller": {
+      "inputs": ["CONTRACT.md", "run context"],
+      "outputs": ["contract validity result", "required-field map"],
+      "permissions": ["read contract", "assert contract completeness"],
+      "forbidden_actions": ["produce project deliverables", "grade artifact quality", "transition gates"],
+      "memory_permissions": "read run context",
+      "tool_permissions": ["schema_validator", "checksum"],
+      "handoff_to": ["harness", "planner"],
+      "requires_human_approval_for": []
+    },
+    "harness": {
+      "inputs": ["run context", "proposed actions", "artifacts", "judge verdicts"],
+      "outputs": ["transition decisions", "replay/gate log entries", "release lock state"],
+      "permissions": ["decide action legality", "execute state transitions", "enforce idempotency", "freeze versions", "lock release"],
+      "forbidden_actions": ["create project artifacts", "grade artifact quality", "replace Verifier or Evaluator", "trust model claims as evidence"],
+      "memory_permissions": "read/write state store + logs",
+      "tool_permissions": ["state_store", "logger", "idempotency_ledger", "checksum", "schema_validator"],
+      "handoff_to": ["gate_controller", "all agents (mediates)"],
+      "requires_human_approval_for": ["release of MAJOR/DESTRUCTIVE changes"]
+    },
+    "planner": {
+      "inputs": ["state store", "project_memory", "contract"],
+      "outputs": ["next legal stage", "required artifact list", "next mechanical action"],
+      "permissions": ["select next stage whose dependencies are PASSED"],
+      "forbidden_actions": ["execute", "verify", "evaluate", "determine completion", "transition gates"],
+      "memory_permissions": "read state + memory",
+      "tool_permissions": [],
+      "handoff_to": ["executor"],
+      "requires_human_approval_for": []
+    },
+    "executor": {
+      "inputs": ["current RUNNING stage", "required artifact list", "stage inputs"],
+      "outputs": ["draft artifacts only"],
+      "permissions": ["produce artifacts authorized by the current RUNNING stage"],
+      "forbidden_actions": [
+        "verify own work",
+        "evaluate own work",
+        "approve own work",
+        "release",
+        "determine completion / self-certify",
+        "judge its own artifacts (judge model must differ)",
+        "compress or merge required artifacts",
+        "skip stages",
+        "transition gates"
+      ],
+      "memory_permissions": "read stage inputs; write drafts to artifact store via Artifact Manager",
+      "tool_permissions": ["artifact_draft_writer"],
+      "handoff_to": ["artifact_manager", "verifier"],
+      "requires_human_approval_for": []
+    },
+    "artifact_manager": {
+      "inputs": ["executor drafts"],
+      "outputs": ["manifest entries (filename, owner, stage, checksum, version)", "lineage"],
+      "permissions": ["register artifacts", "compute checksums", "maintain lineage", "run compression audit"],
+      "forbidden_actions": ["verify", "evaluate", "transition gates", "accept absent artifact"],
+      "memory_permissions": "read/write artifact manifest",
+      "tool_permissions": ["artifact_store", "checksum"],
+      "handoff_to": ["verifier"],
+      "requires_human_approval_for": []
+    },
+    "verifier": {
+      "inputs": ["registered artifacts", "manifest", "stage verifier-checks"],
+      "outputs": ["structural PASS/FAIL", "alternate-model judge GREEN/RED + session id"],
+      "permissions": ["check artifacts against verifier-checks and evidence requirements", "run alternate-model judge"],
+      "forbidden_actions": [
+        "accept explanations, intentions, usefulness, confidence, or executor claims as evidence",
+        "produce project deliverables",
+        "judge an artifact with the same model id that produced it"
+      ],
+      "memory_permissions": "read artifacts + manifest; write verification_report",
+      "tool_permissions": ["schema_validator", "checksum", "alternate_model_judge"],
+      "handoff_to": ["evaluator", "gate_controller"],
+      "requires_human_approval_for": []
+    },
+    "evaluator": {
+      "inputs": ["verifier-approved artifacts", "contract success criteria"],
+      "outputs": ["score against contract success criteria only", "correction/escalation request"],
+      "permissions": ["score verifier-approved artifacts against contract success criteria only", "run alternate-model judge"],
+      "forbidden_actions": [
+        "rely on executor explanations as evidence",
+        "execute",
+        "produce project deliverables",
+        "honor green light for MAJOR/DESTRUCTIVE change without recorded human approval"
+      ],
+      "memory_permissions": "read artifacts; write evaluation_report",
+      "tool_permissions": ["alternate_model_judge"],
+      "handoff_to": ["gate_controller", "human_owner"],
+      "requires_human_approval_for": ["honoring green light on MAJOR/DESTRUCTIVE changes"]
+    },
+    "gate_controller": {
+      "inputs": ["verifier result", "evaluator result", "harness validation", "escalation status"],
+      "outputs": ["stage gate decision (PASSED/FAILED/ESCALATED)"],
+      "permissions": ["mark stage PASSED only when artifacts exist + verifier PASS + evaluator PASS + harness validates + no escalation"],
+      "forbidden_actions": ["pass a stage without all evidence", "produce artifacts", "verify or evaluate"],
+      "memory_permissions": "read/write gate state log",
+      "tool_permissions": ["state_store", "logger"],
+      "handoff_to": ["memory_manager", "planner", "release_gate"],
+      "requires_human_approval_for": []
+    },
+    "memory_manager": {
+      "inputs": ["gate decisions", "blockers", "failure patterns"],
+      "outputs": ["project_memory.md updates", "state records"],
+      "permissions": ["update memory, failure patterns, blockers, completed verified items, next actions"],
+      "forbidden_actions": ["mark completion unless stop conditions satisfied", "store unverified completion claims", "overwrite unresolved failure patterns"],
+      "memory_permissions": "read/write project_memory",
+      "tool_permissions": ["state_store"],
+      "handoff_to": ["planner"],
+      "requires_human_approval_for": []
+    },
+    "escalation_manager": {
+      "inputs": ["missing inputs/evidence", "repeated failures", "gate conflicts", "harness violations"],
+      "outputs": ["structured escalation records", "human handoff requests"],
+      "permissions": ["raise escalations", "halt loop", "request human input"],
+      "forbidden_actions": ["resolve unverifiable assumptions by guessing", "transition gates"],
+      "memory_permissions": "read/write blockers",
+      "tool_permissions": ["logger"],
+      "handoff_to": ["human_owner"],
+      "requires_human_approval_for": []
+    },
+    "orchestrator": {
+      "inputs": ["triggers", "schedules", "events"],
+      "outputs": ["checkpoints", "run history", "retry/failure events", "sub-agent lifecycle state"],
+      "permissions": ["run triggers", "persist checkpoints", "manage retries", "enforce concurrency", "resume from last step"],
+      "forbidden_actions": ["verify", "evaluate", "transition gates", "duplicate side effects after checkpoint"],
+      "memory_permissions": "read/write run history + checkpoints",
+      "tool_permissions": ["logger", "idempotency_ledger", "state_store"],
+      "handoff_to": ["harness"],
+      "requires_human_approval_for": []
+    },
+    "skill_manager": {
+      "inputs": ["skill change proposals", "tests"],
+      "outputs": ["skill registry entries", "version history", "rollback records"],
+      "permissions": ["register, version, test, deprecate, roll back, reuse skills"],
+      "forbidden_actions": ["activate modified skills without verification and evaluation"],
+      "memory_permissions": "read/write skill registry",
+      "tool_permissions": ["skill_registry"],
+      "handoff_to": ["verifier", "evaluator"],
+      "requires_human_approval_for": ["skill deprecation/removal (DESTRUCTIVE)"]
+    },
+    "self_learning_reviewer": {
+      "inputs": ["run history", "skill performance metrics"],
+      "outputs": ["failed-pattern findings", "skill change proposals"],
+      "permissions": ["read run history", "evaluate skill performance", "propose modifications"],
+      "forbidden_actions": ["directly release updated skills", "activate skills", "transition gates"],
+      "memory_permissions": "read run history; write proposals",
+      "tool_permissions": ["logger"],
+      "handoff_to": ["skill_manager"],
+      "requires_human_approval_for": []
+    },
+    "security_manager": {
+      "inputs": ["tool requests", "secret-access requests", "action classifications"],
+      "outputs": ["permission decisions", "audit log entries", "security-review findings"],
+      "permissions": ["scope tool permissions by role and stage", "log secret access", "raise MAJOR findings"],
+      "forbidden_actions": ["widen permissions without approval", "write secrets to artifacts or logs"],
+      "memory_permissions": "read/write audit log",
+      "tool_permissions": ["audit_logger", "secret_scoper"],
+      "handoff_to": ["human_owner"],
+      "requires_human_approval_for": ["privilege escalation, secret exposure, egress/auth changes (MAJOR)"]
+    },
+    "release_gate": {
+      "inputs": ["all gate states", "all approvals", "release evidence"],
+      "outputs": ["release decision (locked/released)"],
+      "permissions": ["release only when all required gates pass and required approvals recorded"],
+      "forbidden_actions": ["release before gates pass", "release without human approval for MAJOR/DESTRUCTIVE"],
+      "memory_permissions": "read state + approvals; write release_gate_report",
+      "tool_permissions": ["state_store", "logger"],
+      "handoff_to": ["human_owner"],
+      "requires_human_approval_for": ["production release"]
+    }
+  }
+}

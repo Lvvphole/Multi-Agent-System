@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "checkpoint_schema",
+  "title": "Durable Step Checkpoint",
+  "description": "Persisted per durable workflow step (SC13). Enables restart resume without duplicate side effects.",
+  "type": "object",
+  "required": ["checkpoint_id", "run_id", "step_id", "status", "retry_count",
+               "idempotency_key", "timestamp"],
+  "additionalProperties": false,
+  "properties": {
+    "checkpoint_id": {"type": "string"},
+    "run_id": {"type": "string"},
+    "step_id": {"type": "string"},
+    "input": {"description": "step input snapshot (any type)"},
+    "output": {"description": "step output snapshot, present when status=completed"},
+    "status": {"enum": ["pending", "running", "completed", "failed"]},
+    "retry_count": {"type": "integer", "minimum": 0},
+    "error_state": {"type": ["string", "null"]},
+    "idempotency_key": {"type": "string"},
+    "timestamp": {"type": ["string", "number"]}
+  }
+}
