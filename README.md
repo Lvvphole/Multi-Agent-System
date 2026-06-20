@@ -1,12 +1,8 @@
-# Multi-Agent-System — Deterministic Control Harness
+# Multi Agent System
 
-A code-resident control layer for a meta-loop, self-learning multi-agent system,
+A deterministic control harness for a meta-loop, self-learning multi-agent system 
 governed by `CONTRACT.md` (v2.0.0). Determinism lives in code (state store,
 state machine, schema validators, append-only logs), not in any model's claims.
-
-# Multi-Agent-System
-
-A deterministic control harness for a meta-loop, self-learning multi-agent system.
 
 This repository implements a code-resident control layer for multi-agent execution. The core rule is simple:
 
